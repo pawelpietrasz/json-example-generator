@@ -9,6 +9,7 @@ public class JsonEntity {
 	private Map<String, Object> properties;
 	private Map<String, Object> parentProperties;
 	private List<String> enums;
+	private String regexPattern;
 	
 	public List<String> getEnums() {
 		return enums;
@@ -24,6 +25,14 @@ public class JsonEntity {
 
 	public void setParentProperties(Map<String, Object> parentProperties) {
 		this.parentProperties = parentProperties;
+	}
+
+	public String getRegexPattern() {
+		return regexPattern;
+	}
+
+	public void setRegexPattern(String regexPattern) {
+		this.regexPattern = regexPattern;
 	}
 
 	private List<Map<String, Object>> allOf;
@@ -55,10 +64,12 @@ public class JsonEntity {
 
 
 	
+
+
 	@Override
 	public String toString() {
 		return "JsonEntity [properties=" + properties + ", parentProperties=" + parentProperties + ", enums=" + enums
-				+ ", allOf=" + allOf + ", entityName=" + entityName + "]";
+				+ ", regexPattern=" + regexPattern + ", allOf=" + allOf + ", entityName=" + entityName + "]";
 	}
 
 	public boolean isExtended() {

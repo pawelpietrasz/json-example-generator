@@ -6,13 +6,15 @@ import java.util.Map.Entry;
 
 import org.fluttercode.datafactory.impl.DataFactory;
 
+import pl.jsongen.value.ValueGenerator;
+
 public class JsonExampleBuilder {
 	private StringBuilder jsonExample = new StringBuilder();
 
 	private String entityName;
 	private int depth = 1;
 	private JsonSchema schema;
-	private DataFactory df = new DataFactory();
+	
 	
 	public StringBuilder getJsonExample() {
 		return jsonExample;
@@ -69,13 +71,13 @@ public class JsonExampleBuilder {
 	private void printSimpleType(JsonProperty property, boolean hasNextElem) {
 		switch(property.getType()) {
 		case JsonConstance.JSON_STRING_TYPE:
-			jsonExample.append("\""+property.getName()+"\": \"" + df.getRandomText(12)+"\"");
+			jsonExample.append("\""+property.getName()+"\": \"" + ValueGenerator.getSimpleText(12)+"\"");
 			break;
 		case JsonConstance.JSON_NUMBER_TYPE:
-			jsonExample.append("\""+property.getName()+"\": " + df.getNumberBetween(0, 10000));
+			jsonExample.append("\""+property.getName()+"\": " + ValueGenerator.getSimpleNumber(0, 100));
 			break;
 		case JsonConstance.JSON_BOOLEAN_TYPE:
-			jsonExample.append("\""+property.getName()+"\": " + df.getItem(new Boolean[] {true,false}));	
+			jsonExample.append("\""+property.getName()+"\": " + ValueGenerator.getSimpleBoolean());	
 			break;						
 		}
 		
@@ -89,10 +91,7 @@ public class JsonExampleBuilder {
 			JsonEntity entityDefinition = schema.getDefinition(property.getRefId());
 			
 			if (entityDefinition.getProperties() == null) {
-				if (entityDefinition.getEnums() != null)
-					jsonExample.append("\""+property.getName()+"\": \"" + entityDefinition.getEnums().get(0)+"\"");
-				else
-					jsonExample.append("\""+property.getName()+"\": \"" + df.getRandomText(12)+"\"");
+				jsonExample.append("\""+property.getName()+"\": \"" + ValueGenerator.getSimpleLov(entityDefinition)+"\"");
 			}else {
 				jsonExample.append("\""+property.getName()+"\": {");
 				iterateFields(entityDefinition.getAllElements(), ++currentDepth);

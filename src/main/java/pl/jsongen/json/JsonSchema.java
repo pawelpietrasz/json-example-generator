@@ -82,6 +82,8 @@ public class JsonSchema {
 		List<String> enums = (List<String>)initialEntity.get(JsonConstance.ENTITY_ENUM);
 		
 		entity.setEnums(enums);
+		
+		entity.setRegexPattern((String)initialEntity.get("pattern"));
 		return entity;
 	}
 }
